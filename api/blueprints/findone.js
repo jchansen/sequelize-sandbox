@@ -1,26 +1,28 @@
 /**
  * Module dependencies
  */
-//var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
+var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
 var _ = require('lodash');
 var models = require('../models');
 
-/**
- * Find Records
- *
- *  get   /:modelIdentity
- */
-
 module.exports = function findRecords (req, res) {
+
   // Look up the model
   var model = req.options.model || req.options.controller;
   var modelName = _.capitalize(model);
   var Model = models[modelName];
+  var pk = actionUtil.requirePk(req);
 
   // Lookup for records that match the specified criteria
-  Model.findAll().then(function(matchingRecords){
-    res.ok(matchingRecords);
+  Model.findOne({
+    where: {
+      id: pk
+    }
+  }).then(function(matchingRecord){
+    if(!matchingRecord) return res.notFound('No record found with the specified `id`.');
+    res.ok(matchingRecord);
   }).error(function(err){
     if (err) return res.serverError(err);
   });
+  
 };
