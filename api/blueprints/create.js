@@ -3,7 +3,6 @@
  */
 var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
 var _ = require('lodash');
-var models = require('../models');
 
 /**
  * Create Record
@@ -16,9 +15,7 @@ var models = require('../models');
  */
 module.exports = function findRecords (req, res) {
   // Look up the model
-  var model = req.options.model || req.options.controller;
-  var modelName = _.capitalize(model);
-  var Model = models[modelName];
+  var Model = actionUtil.parseModel(req);
 
   // Create data object (monolithic combination of all parameters)
   // Omit the blacklisted params (like JSONP callback param, etc.)
