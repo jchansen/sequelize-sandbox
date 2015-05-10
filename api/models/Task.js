@@ -8,7 +8,10 @@
 module.exports = function(sequelize, DataTypes) {
 
   return sequelize.define('Task', {
-    title:       DataTypes.STRING,
+    title:       {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     description: DataTypes.TEXT,
     deadline:    DataTypes.DATE
   })
