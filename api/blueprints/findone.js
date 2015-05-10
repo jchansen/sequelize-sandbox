@@ -21,8 +21,8 @@ module.exports = function findRecords (req, res) {
   }).then(function(matchingRecord){
     if(!matchingRecord) return res.notFound('No record found with the specified `id`.');
     res.ok(matchingRecord);
-  }).error(function(err){
-    if (err) return res.serverError(err);
+  }).catch(function(err){
+    res.serverError(err);
   });
-  
+
 };

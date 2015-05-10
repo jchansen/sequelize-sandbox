@@ -20,7 +20,7 @@ module.exports = function findRecords (req, res) {
   // Lookup for records that match the specified criteria
   Model.findAll().then(function(matchingRecords){
     res.ok(matchingRecords);
-  }).error(function(err){
-    if (err) return res.serverError(err);
+  }).catch(function(err){
+    res.serverError(err);
   });
 };
