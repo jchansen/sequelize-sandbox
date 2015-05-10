@@ -9,31 +9,13 @@
  * http://sailsjs.org/#/documentation/reference/sails.config/sails.config.bootstrap.html
  */
 
-var Sequelize = require('sequelize');
-
-var sequelize = new Sequelize('database', 'username', 'password', {
-  dialect: 'sqlite',
-  storage: '.tmp/db.sqlite'
-});
+var models = require('../api/models');
 
 module.exports.bootstrap = function(cb) {
 
-  var Project = sequelize.define('Project', {
-    title:       Sequelize.STRING,
-    description: Sequelize.TEXT
-  });
-
-  var Task = sequelize.define('Task', {
-    title:       Sequelize.STRING,
-    description: Sequelize.TEXT,
-    deadline:    Sequelize.DATE
-  });
-
-  Project.hasMany(Task);
-
-  sequelize.sync({force: true}).then(function() {
+  models.sequelize.sync({force: true}).then(function() {
     // bootstrap data
-    var task = Task.build({title: 'very important task'});
+    var task = models.Task.build({title: 'very important task'});
     task.save()
       .then(function() {
         //console.log("success!");
