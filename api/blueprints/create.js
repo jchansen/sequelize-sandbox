@@ -5,6 +5,15 @@ var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
 var _ = require('lodash');
 var models = require('../models');
 
+/**
+ * Create Record
+ *
+ * post /:modelIdentity
+ *
+ * An API call to find and return a single model instance from the data adapter
+ * using the specified criteria.  If an id was specified, just the instance with
+ * that unique id will be returned.
+ */
 module.exports = function findRecords (req, res) {
   // Look up the model
   var model = req.options.model || req.options.controller;

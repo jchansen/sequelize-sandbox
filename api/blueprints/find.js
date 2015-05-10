@@ -1,7 +1,7 @@
 /**
  * Module dependencies
  */
-//var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
+var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
 var _ = require('lodash');
 var models = require('../models');
 
@@ -9,8 +9,12 @@ var models = require('../models');
  * Find Records
  *
  *  get   /:modelIdentity
+ *   *    /:modelIdentity/find
+ *
+ * An API call to find and return model instances from the data adapter
+ * using the specified criteria.  If an id was specified, just the instance
+ * with that unique id will be returned.
  */
-
 module.exports = function findRecords (req, res) {
   // Look up the model
   var model = req.options.model || req.options.controller;
