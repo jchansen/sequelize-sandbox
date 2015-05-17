@@ -7,4 +7,12 @@
 
 module.exports = {
 
+  index: function(req, res){
+    Project.findAll().then(function(projects){
+      res.ok(projects);
+    }).catch(function(err){
+      res.serverError(err);
+    });
+  }
+
 };
