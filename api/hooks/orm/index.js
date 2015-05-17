@@ -33,7 +33,7 @@ module.exports = function (sails) {
         _part2: function(next){
           var sequelize = new Sequelize('database', 'username', 'password', {
             dialect: 'sqlite',
-            storage: '.tmp/db.sqlite'
+            storage: './test.sqlite'
           });
 
           _.each(sails.models, function(thisModel, modelID) {
