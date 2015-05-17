@@ -5,16 +5,18 @@
 * @docs        :: http://docs.sequelizejs.com/en/1.7.0/docs/models/
 */
 
-module.exports = function(sequelize, DataTypes) {
+var Sequelize = require('sequelize');
 
-  return sequelize.define('Task', {
-    title:       {
-      type: DataTypes.STRING,
+module.exports = {
+
+  attributes: {
+    title: {
+      type: Sequelize.STRING,
       allowNull: false
     },
-    description: DataTypes.TEXT,
-    deadline:    DataTypes.DATE
-  })
+    description: Sequelize.TEXT,
+    deadline: Sequelize.DATE
+  }
 
 };
 

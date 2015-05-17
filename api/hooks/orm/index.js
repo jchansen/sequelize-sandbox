@@ -39,7 +39,8 @@ module.exports = function (sails) {
           _.each(sails.models, function(thisModel, modelID) {
             var globalId = thisModel.globalId;
             var identity = thisModel.identity;
-            var thisModel = thisModel(sequelize, Sequelize);
+            var thisModel = sequelize.define(globalId, thisModel.attributes);
+            //var thisModel = thisModel(sequelize, Sequelize);
             thisModel.globalId = globalId;
             thisModel.identity = identity;
 
