@@ -1,12 +1,25 @@
 var FactoryGirl = require('factory-girl');
-var adapter = require('factory-girl-sequelize')();
-var Factory = new FactoryGirl.Factory();
+//var adapter = require('factory-girl-sequelize')();
 
-var Sequelize = require('sequelize');
-var sequelize = new Sequelize('database', 'username', 'password', {
-  dialect: 'sqlite',
-  storage: '.tmp/test.sqlite'
-});
+var Adapter = function () {};
+Adapter.prototype = new FactoryGirl.Adapter();
+
+Adapter.prototype.build = function(Model, attributes) {
+  return Model.build(attributes);
+};
+
+Adapter.prototype.save = function(doc, Model, callback) {
+  doc.save().done(callback);
+};
+
+Adapter.prototype.destroy = function(doc, Model, callback) {
+  doc.destroy().done(callback);
+};
+
+var adapter = new Adapter();
+
+// Setup sequelize
+var sequelize = require('./sequelize');
 
 var requireDir = require('require-dir');
 var models = requireDir('../api/models');
