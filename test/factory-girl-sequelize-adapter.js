@@ -9,7 +9,11 @@ module.exports = function() {
   };
 
   Adapter.prototype.save = function(doc, Model, callback) {
-    doc.save().done(callback);
+    doc.save().then(function(model){
+      callback(null, model);
+    }).catch(function(err){
+      callback(err);
+    });
   };
 
   Adapter.prototype.destroy = function(doc, Model, callback) {
