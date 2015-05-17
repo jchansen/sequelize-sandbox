@@ -1,0 +1,2 @@
+1. make sequelize ORM tier use environment configuration (drop hard coding)
+2. make sequelize ORM tier respect environment configurations (test, dev, prod)
