@@ -1,5 +1,5 @@
 var FactoryGirl = require('factory-girl');
-var adapter = require('./adapter')(FactoryGirl);
+var adapter = require('./factory-girl-sequelize-adapter')();
 
 // Setup sequelize
 var sequelize = require('./sequelize');

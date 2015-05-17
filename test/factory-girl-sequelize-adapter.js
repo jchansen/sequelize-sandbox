@@ -1,4 +1,6 @@
-module.exports = function(FactoryGirl) {
+var FactoryGirl = require('factory-girl');
+
+module.exports = function() {
   var Adapter = function () {};
   Adapter.prototype = new FactoryGirl.Adapter();
 
