@@ -1,31 +1,18 @@
-var Factory = require('factory-girl'),
-    Adapter = Factory.Adapter;
+module.exports = function(FactoryGirl) {
+  var Adapter = function () {};
+  Adapter.prototype = new FactoryGirl.Adapter();
 
-var SequelizeAdapter = function () {};
-SequelizeAdapter.prototype = new Adapter();
+  Adapter.prototype.build = function(Model, attributes) {
+    return Model.build(attributes);
+  };
 
-SequelizeAdapter.prototype.build = function(Model, props) {
-  return Model.build(props);
-};
+  Adapter.prototype.save = function(doc, Model, callback) {
+    doc.save().done(callback);
+  };
 
-SequelizeAdapter.prototype.save = function(doc, Model, cb) {
-  doc.save().done(cb);
-};
+  Adapter.prototype.destroy = function(doc, Model, callback) {
+    doc.destroy().done(callback);
+  };
 
-SequelizeAdapter.prototype.destroy = function(doc, Model, cb) {
-  doc.destroy().done(cb);
-};
-
-var adapter = new SequelizeAdapter();
-
-module.exports = function(models) {
-  if (models) {
-    for (var i = 0; i < models.length; i++) {
-      Factory.setAdapter(adapter, models[i]);
-    }
-  }
-  else {
-    Factory.setAdapter(adapter);
-  }
-  return adapter;
+  return new Adapter();
 };
