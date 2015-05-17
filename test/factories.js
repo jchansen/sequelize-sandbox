@@ -17,6 +17,7 @@ module.exports = function() {
   Object.keys(models).map(function(modelName){
     var model = models[modelName];
     Models[modelName] = sequelize.define(modelName, model.attributes)
+    global[modelName] = Models[modelName];
   });
 
   require('./factories/project')(factory, Models['Project']);
