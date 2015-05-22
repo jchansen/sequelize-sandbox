@@ -7,12 +7,13 @@
 
 module.exports = {
 
-  index: function(req, res){
-    Project.findAll().then(function(projects){
-      res.ok(projects);
-    }).catch(function(err){
-      res.serverError(err);
-    });
-  }
+  // todo: figure out this is being called on a POST to /api/project
+  // index: function(req, res){
+  //   Project.findAll().then(function(projects){
+  //     res.ok(projects);
+  //   }).catch(function(err){
+  //     res.serverError(err);
+  //   });
+  // }
 
 };
