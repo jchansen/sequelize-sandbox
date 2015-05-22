@@ -7,7 +7,7 @@ function rebuildDatabase(){
   return sequelize.sync({force: true});
 }
 
-describe('Project Controller', function(){
+describe('Project Controller (integration)', function(){
   describe('#index', function(){
 
     before(function(done){
