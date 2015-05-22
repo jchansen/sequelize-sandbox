@@ -42,7 +42,7 @@ describe.only('Project Controller (integration2)', function(){
 
   describe('#index', function(){
 
-    before(function(done){
+    beforeEach(function(done){
       factory.createMany('Project', 3, function(err, projects){
         done();
       })
@@ -70,10 +70,11 @@ describe.only('Project Controller (integration2)', function(){
         method: 'post',
         url: '/api/project',
         data: {
-          name: "rabbit"
+          title: "rabbit"
         }
       }, function(err, res, body){
-        expect(res.body.length).to.equal(3);
+        expect(res.statusCode).to.equal(201);
+        expect(res.body.title).to.equal("rabbit");
         done();
       });
     });
