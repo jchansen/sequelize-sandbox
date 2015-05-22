@@ -1,27 +1,60 @@
 var expect = require('chai').expect;
-var factory = require('./factories')();
-var sequelize = require('./sequelize');
 
-function rebuildDatabase(){
-  return sequelize.sync({force: true});
-}
+before(function(){
+  console.log("outer: before");
+});
 
-describe('Project Controller', function(){
-  describe('#index', function(){
+beforeEach(function(){
+  console.log("outer: beforeEach");
+});
 
-    before(function(done){
-      rebuildDatabase().then(function(){
-        factory.create('Project', function(err, project){
-          factory.create('Task', function(err, project){
-            done();
-          })
-        })
-      })
+after(function(){
+  console.log("outer: after")
+});
+
+afterEach(function(){
+  console.log("outer: afterEach")
+});
+
+describe('Middle', function(){
+
+  before(function(){
+    console.log("middle: before");
+  });
+
+  beforeEach(function(){
+    console.log("middle: beforeEach");
+  });
+
+  after(function(){
+    console.log("middle: after")
+  });
+
+  afterEach(function(){
+    console.log("middle: afterEach")
+  });
+
+  describe('Inner', function(){
+
+    before(function(){
+      console.log("inner: before");
+    });
+
+    beforeEach(function(){
+      console.log("inner: beforeEach");
+    });
+
+    after(function(){
+      console.log("inner: after")
+    });
+
+    afterEach(function(){
+      console.log("inner: afterEach")
     });
 
     it('should return a list of projects', function(){
       expect([1,2,3].indexOf(5)).to.equal(-1);
-      expect([1,2,3].indexOf(0)).to.equal(-1);
     })
   })
+
 });
