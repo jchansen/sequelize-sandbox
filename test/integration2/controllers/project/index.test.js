@@ -32,12 +32,10 @@ function rebuildDatabase(){
   return sequelize.sync({force: true});
 }
 
-describe.only('Project Controller (integration2)', function(){
+describe('Project Controller (integration2)', function(){
 
-  beforeEach(function(done){
-    rebuildDatabase().then(function(){
-      done();
-    })
+  beforeEach(function(){
+    return rebuildDatabase();
   });
 
   describe('#index', function(){
@@ -48,7 +46,7 @@ describe.only('Project Controller (integration2)', function(){
       })
     });
 
-    it('should return a list of projects', function(done){
+    it('should return list of projects', function(done){
       sails.request({
         method: 'get',
         url: '/api/project'
@@ -76,6 +74,62 @@ describe.only('Project Controller (integration2)', function(){
         expect(res.statusCode).to.equal(201);
         expect(res.body.title).to.equal("rabbit");
         done();
+      });
+    });
+
+  });
+
+  describe('#update', function(){
+    var id;
+
+    beforeEach(function(done){
+      factory.create('Project', function(err, project){
+        id = project.id;
+        done();
+      })
+    });
+
+    it('should change project title', function(done){
+      sails.request({
+        method: 'put',
+        url: '/api/project/' + id,
+        data: {
+          title: "rabbit2"
+        }
+      }, function(err, res, body){
+        expect(res.statusCode).to.equal(200);
+        expect(res.body.title).to.equal("rabbit2");
+        done();
+      });
+    });
+
+  });
+
+  describe('#destroy', function(){
+    var id;
+
+    beforeEach(function(done){
+      factory.create('Project', function(err, project){
+        id = project.id;
+        done();
+      })
+    });
+
+    it('should remove project', function(done){
+      sails.request({
+        method: 'delete',
+        url: '/api/project/' + id
+      }, function(err, res, body){
+        expect(res.statusCode).to.equal(200);
+        expect(res.body.title).to.equal("projectName");
+
+        sails.request({
+          method: 'get',
+          url: '/api/project/' + id
+        }, function(err, res, body){
+          expect(err.status).to.equal(404);
+          done();
+        });
       });
     });
 
