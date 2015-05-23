@@ -6,6 +6,7 @@
   "keywords": [],
   "dependencies": {
     "chai": "^2.3.0",
+    "dotenv": "^1.1.0",
     "ejs": "~0.8.4",
     "factory-girl": "^1.4.1",
     "factory-girl-sequelize": "^0.2.2",
@@ -24,7 +25,11 @@
     "include-all": "~0.1.3",
     "lodash": "^3.8.0",
     "mocha": "^2.2.5",
+    "passport": "^0.2.2",
+    "passport-auth0": "^0.2.1",
+    "passport-local": "^1.0.0",
     "rc": "~0.5.0",
+    "request": "^2.55.0",
     "require-dir": "^0.3.0",
     "sails": "~0.11.0",
     "sails-disk": "~0.10.0",
@@ -36,7 +41,7 @@
   "scripts": {
     "start": "node app.js",
     "debug": "node debug app.js",
-    "test": "mocha test/bootstrap.test.js test/integration/**/*.test.js"
+    "test": "mocha test/bootstrap2.test.js test/integration2/**/*.test.js"
   },
   "main": "app.js",
   "repository": {
