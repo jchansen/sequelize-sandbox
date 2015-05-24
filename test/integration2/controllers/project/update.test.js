@@ -7,24 +7,30 @@ function rebuildDatabase(){
   return sequelize.sync({force: true});
 }
 
-describe('project#index', function(){
+describe('project#update', function(){
+  var id;
 
   beforeEach(function(){
     return rebuildDatabase();
   });
 
   beforeEach(function(done){
-    factory.createMany('Project', 3, function(err, projects){
+    factory.create('Project', function(err, project){
+      id = project.id;
       done();
     })
   });
 
-  it('should return a list of projects', function(done){
+  it('should change project title', function(done){
     sails.request({
-      method: 'get',
-      url: '/api/project'
+      method: 'put',
+      url: '/api/project/' + id,
+      data: {
+        title: "rabbit2"
+      }
     }, function(err, res, body){
-      expect(res.body.length).to.equal(3);
+      expect(res.statusCode).to.equal(200);
+      expect(res.body.title).to.equal("rabbit2");
       done();
     });
   });
