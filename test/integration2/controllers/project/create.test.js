@@ -12,6 +12,24 @@ describe('project#create', function(){
 
   before(function(){
     nock.disableNetConnect();
+
+    nock('https://storcery.auth0.com/')
+      .post('/tokeninfo', {
+        id_token: "bad-token"
+      })
+      .reply(401);
+
+    nock('https://storcery.auth0.com/')
+      .post('/tokeninfo', {
+        id_token: "good-token"
+      })
+      .reply(200, {
+        user_id: "auth0|54321",
+        name: "Test User",
+        nickname: "testuser",
+        picture: "https://secure.gravatar.com/avatar/abc123",
+        email: "test_user@gmail.com"
+      });
   });
 
   beforeEach(function(){
@@ -19,6 +37,7 @@ describe('project#create', function(){
   });
 
   after(function(){
+    //nock.cleanAll();
     nock.restore();
   });
 
@@ -61,24 +80,6 @@ describe('project#create', function(){
 
   describe("when bearer token is valid", function(){
 
-    before(function(){
-      nock('https://storcery.auth0.com/')
-        .post('/tokeninfo', {
-          id_token: "good-token"
-        })
-        .reply(200, {
-          user_id: "auth0|54321",
-          name: "Test User",
-          nickname: "testuser",
-          picture: "https://secure.gravatar.com/avatar/abc123",
-          email: "test_user@gmail.com"
-        });
-    });
-
-    after(function(){
-      nock.cleanAll();
-    });
-
     it('should create a project', function(done){
       sails.request({
         method: 'post',
@@ -98,19 +99,7 @@ describe('project#create', function(){
 
   });
 
-  describe.only("when bearer token is invalid", function(){
-
-    beforeEach(function(){
-      nock('https://storcery.auth0.com/')
-        .post('/tokeninfo', {
-          id_token: "bad-token"
-        })
-        .reply(401);
-    });
-
-    afterEach(function(){
-      nock.cleanAll();
-    });
+  describe("when bearer token is invalid", function(){
 
     it('should return 401', function(done){
       sails.request({
