@@ -1,0 +1,9 @@
+http://www.slideshare.net/morrissinger/unit-testing-express-middleware
+https://github.com/howardabrams/node-mocks-http
+https://github.com/balderdashy/sails/issues/2595
+https://github.com/kasperisager/sails-generate-auth/issues/11
+http://www.manning.com/mcneil/
+
+Generators:
+https://github.com/kasperisager/sails-generate-auth
+
