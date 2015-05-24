@@ -10,7 +10,7 @@
  */
 
 var passport = require('passport'),
-    passportMiddleware = require("../lib/middleware/passport");
+    passportMiddleware = require("../lib/middleware/passport-bearer");
 
 module.exports.http = {
 
