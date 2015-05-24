@@ -1,4 +1,19 @@
+require('dotenv').load();
 var sails = require('sails');
+
+// IMPORTANT!!
+// Because we're using the sails.load version for integration tests, which in turns
+// uses the mock-req library for generated http requests, we need to transfer the
+// methods that passport adds to the http.IncomingMessage prototype onto the prototype
+// of the library that sails uses (so we need to reach inside sails for the right library)
+var passport = require('passport');
+var http = require('http');
+var mockReq = require('sails/node_modules/mock-req');
+var methods = ['login', 'logIn', 'logout', 'logOut', 'isAuthenticated', 'isUnauthenticated'];
+
+methods.forEach(function(method){
+  mockReq.prototype[method] = http.IncomingMessage.prototype[method];
+});
 
 before(function(done){
 
