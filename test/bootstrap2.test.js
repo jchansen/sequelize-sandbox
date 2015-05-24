@@ -1,5 +1,10 @@
 require('dotenv').load();
 var sails = require('sails');
+var nock = require('nock');
+
+// -------------------------------------------------------------
+// Transfer Passports req methods to the mock req we'll be using
+// -------------------------------------------------------------
 
 // IMPORTANT!!
 // Because we're using the sails.load version for integration tests, which in turns
@@ -14,6 +19,10 @@ var methods = ['login', 'logIn', 'logout', 'logOut', 'isAuthenticated', 'isUnaut
 methods.forEach(function(method){
   mockReq.prototype[method] = http.IncomingMessage.prototype[method];
 });
+
+// ---------------------------------------------------------------
+// Set up Sails to load before all tests and lower after all tests
+// ---------------------------------------------------------------
 
 before(function(done){
 
@@ -38,4 +47,38 @@ before(function(done){
 
 after(function afterTestsFinish (done) {
   sails.lower(done);
+});
+
+
+// -------------------------------------------
+// Set up Nock for valid/invalid user requests
+//
+
+before(function(){
+  nock.disableNetConnect();
+
+  nock('https://storcery.auth0.com/')
+    .persist()
+    .post('/tokeninfo', {
+      id_token: "bad-token"
+    })
+    .reply(401);
+
+  nock('https://storcery.auth0.com/')
+    .persist()
+    .post('/tokeninfo', {
+      id_token: "good-token"
+    })
+    .reply(200, {
+      user_id: "auth0|54321",
+      name: "Test User",
+      nickname: "testuser",
+      picture: "https://secure.gravatar.com/avatar/abc123",
+      email: "test_user@gmail.com"
+    });
+});
+
+after(function(){
+  //nock.cleanAll();
+  nock.restore();
 });

@@ -25,6 +25,9 @@ describe('project#update', function(){
     sails.request({
       method: 'put',
       url: '/api/project/' + id,
+      headers: {
+        'authorization': 'Bearer good-token'
+      },
       data: {
         title: "rabbit2"
       }

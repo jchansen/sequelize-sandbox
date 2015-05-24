@@ -24,14 +24,20 @@ describe('project#destroy', function(){
   it('should remove project', function(done){
     sails.request({
       method: 'delete',
-      url: '/api/project/' + id
+      url: '/api/project/' + id,
+      headers: {
+        'authorization': 'Bearer good-token'
+      }
     }, function(err, res, body){
       expect(res.statusCode).to.equal(200);
       expect(body.title).to.equal("projectName");
 
       sails.request({
         method: 'get',
-        url: '/api/project/' + id
+        url: '/api/project/' + id,
+        headers: {
+          'authorization': 'Bearer good-token'
+        }
       }, function(err, res, body){
         expect(err.status).to.equal(404);
         done();
