@@ -27,7 +27,7 @@ describe('project#destroy', function(){
       url: '/api/project/' + id
     }, function(err, res, body){
       expect(res.statusCode).to.equal(200);
-      expect(res.body.title).to.equal("projectName");
+      expect(body.title).to.equal("projectName");
 
       sails.request({
         method: 'get',

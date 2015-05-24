@@ -30,7 +30,7 @@ describe('project#update', function(){
       }
     }, function(err, res, body){
       expect(res.statusCode).to.equal(200);
-      expect(res.body.title).to.equal("rabbit2");
+      expect(body.title).to.equal("rabbit2");
       done();
     });
   });

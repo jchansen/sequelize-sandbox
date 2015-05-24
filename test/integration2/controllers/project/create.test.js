@@ -32,28 +32,14 @@ describe('project#create', function(){
       });
   });
 
-  beforeEach(function(){
-    return rebuildDatabase();
-  });
-
   after(function(){
     //nock.cleanAll();
     nock.restore();
   });
 
-  //it('should create a project', function(done){
-  //  sails.request({
-  //    method: 'post',
-  //    url: '/api/project',
-  //    data: {
-  //      title: "rabbit"
-  //    }
-  //  }, function(err, res, body){
-  //    expect(res.statusCode).to.equal(201);
-  //    expect(res.body.title).to.equal("rabbit");
-  //    done();
-  //  });
-  //});
+  beforeEach(function(){
+    return rebuildDatabase();
+  });
 
   it('should return 401 if authorization header not set', function(done){
     sails.request({
@@ -78,6 +64,23 @@ describe('project#create', function(){
     });
   });
 
+  describe("when bearer token is invalid", function(){
+
+    it('should return 401', function(done){
+      sails.request({
+        method: 'post',
+        url: '/api/project',
+        headers: {
+          'authorization': 'Bearer bad-token'
+        }
+      }, function(err, res, body){
+        expect(err.status).to.equal(401);
+        done();
+      });
+    });
+
+  });
+
   describe("when bearer token is valid", function(){
 
     it('should create a project', function(done){
@@ -93,23 +96,6 @@ describe('project#create', function(){
       }, function(err, res, body){
         expect(res.statusCode).to.equal(201);
         expect(body.title).to.equal("rabbit");
-        done();
-      });
-    });
-
-  });
-
-  describe("when bearer token is invalid", function(){
-
-    it('should return 401', function(done){
-      sails.request({
-        method: 'post',
-        url: '/api/project',
-        headers: {
-          'authorization': 'Bearer bad-token'
-        }
-      }, function(err, res, body){
-        expect(err.status).to.equal(401);
         done();
       });
     });
