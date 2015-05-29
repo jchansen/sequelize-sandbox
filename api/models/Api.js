@@ -10,6 +10,13 @@ var Sequelize = require('sequelize');
 module.exports = {
 
   attributes: {
+    id: {
+      primaryKey: true,
+      allowNull: false,
+      unique: true,
+      type: Sequelize.UUID,
+      defaultValue: Sequelize.UUIDV4
+    },
     name: {
       type: Sequelize.STRING,
       unique: true,
@@ -18,6 +25,13 @@ module.exports = {
       },
       validate: {
         is: /^[0-9a-z-]+$/
+      }
+    },
+    href: {
+      type: Sequelize.STRING,
+      unique: true,
+      validate: {
+        isUrl: true
       }
     }
 
