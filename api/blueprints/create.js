@@ -3,6 +3,7 @@
  */
 var actionUtil = require('sails/lib/hooks/blueprints/actionUtil');
 var _ = require('lodash');
+var sequelize = require('sequelize');
 
 /**
  * Create Record
@@ -27,7 +28,7 @@ module.exports = function findRecords (req, res) {
     res.created(newInstance);
   }).catch(function(err){
     // Set the status here or negotiate will default the status to 500
-    if(err instanceof models.sequelize.ValidationError) err.status = 400;
+    if(err instanceof sequelize.ValidationError) err.status = 400;
     res.negotiate(err);
   });
 };
