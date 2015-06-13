@@ -17,7 +17,8 @@ var errors = {
   // 3XXX: API
   "3001": 400,
   "3002": 400,
-  "3003": 400
+  "3003": 400,
+  "3004": 500
 };
 
 module.exports = function(errorCode){

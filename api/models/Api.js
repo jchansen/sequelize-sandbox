@@ -34,8 +34,12 @@ module.exports = {
       validate: {
         isUrl: true
       }
+    },
+    ownerId: {
+      type: Sequelize.STRING,
+      allowNull: false
     }
-
   }
+
 };
 

@@ -4,5 +4,6 @@
   "2001.message": "Token not valid or not for a valid user",
   "3001.message": "Name contains invalid characters.  Valid characters are lowercase alpha, numbers, and -.",
   "3002.message": "Name cannot be blank",
-  "3003.message": "Name not available"
+  "3003.message": "Name not available",
+  "3004.message": "ownerId should have been set by the server"
 }

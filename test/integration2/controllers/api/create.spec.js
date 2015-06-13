@@ -113,7 +113,7 @@ describe('Apis#create', function() {
     describe('when the api gets created', function() {
       var name = 'a-create-api';
 
-      it('will return a 200 and the api that gets created', function(done) {
+      it('will return a 201 and the api that gets created', function(done) {
         sails.request({
           method: 'post',
           url: '/api/api',
@@ -125,10 +125,28 @@ describe('Apis#create', function() {
           }
         }, function(err, res, body){
           expect(res.statusCode).to.equal(201);
+          expect(body.id).to.exist;
           expect(body.name).to.equal(name);
           done();
         });
       });
+
+      it.only('will set the ownerId to the id of the user that created the API', function(done) {
+        sails.request({
+          method: 'post',
+          url: '/api/api',
+          headers: {
+            'authorization': 'Bearer good-token'
+          },
+          data: {
+            name: name
+          }
+        }, function(err, res, body){
+          expect(body.ownerId).to.equal("auth0|54321");
+          done();
+        });
+      });
+
     });
   });
 });

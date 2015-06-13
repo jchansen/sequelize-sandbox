@@ -65,6 +65,9 @@ module.exports = {
 
     if(data.name) checkReservedNames(data.name);
 
+    // set the api owner to the user that created it
+    data.ownerId = req.user.user_id;
+
     // Create new instance of model using data from params
     Api.create(data).then(function(newInstance) {
       // Send JSONP-friendly response if it's supported
@@ -72,14 +75,24 @@ module.exports = {
     }).catch(function(err){
       var error;
       // Set the status here or negotiate will default the status to 500
+      // todo: I think it's a mistake to let the errors end up in the database
+      //       it means business logic is being left in the DB - code should enforce
+      //       leaving it in code also means we have a natural place to examine state
+      //       of data and easily select and throw the correct error type
       if(err instanceof sequelize.ValidationError) {
         error = err.errors[0];
-        // error.path === "name"
-        switch(error.type){
-          case "Validation error": return res.customError(3001, err);
-          case "notNull Violation": return res.customError(3002, err);
-          case "unique violation": return res.customError(3003, err);
+        if(error.path === "name"){
+          switch(error.type){
+            case "Validation error": return res.customError(3001, err);
+            case "notNull Violation": return res.customError(3002, err);
+            case "unique violation": return res.customError(3003, err);
+          }
+        }else if(error.path === "ownerId"){
+          switch(error.type){
+            case "notNull Violation": return res.customError(3004, err);
+          }
         }
+
       }
       res.negotiate(err);
     });
