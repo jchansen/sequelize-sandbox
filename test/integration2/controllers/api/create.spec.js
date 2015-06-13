@@ -64,11 +64,32 @@ describe('Apis#create', function() {
           done();
         });
       });
-
     });
 
     describe('when the api name is taken', function() {
+      var name = 'do-not-duplicate-me-bro';
 
+      beforeEach(function(done){
+        factory.create('Api', {name: name}, function(err, api){
+          done();
+        })
+      });
+
+      it.only('will return a 400 indicating that the name is already taken', function(done) {
+        sails.request({
+          method: 'post',
+          url: '/api/api',
+          headers: {
+            'authorization': 'Bearer good-token'
+          },
+          data: {
+            name: name
+          }
+        }, function(err, res, body){
+          expect(err.body).to.eql(errors(3003));
+          done();
+        });
+      });
     });
 
     describe('when the api name is a reserved api name (i.e admin, storcery, mikrofusion, chrisfishwood, god, etc)', function() {

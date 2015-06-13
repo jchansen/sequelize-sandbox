@@ -49,6 +49,7 @@ module.exports = {
         switch(error.type){
           case "Validation error": return res.customError(3001, err);
           case "notNull Violation": return res.customError(3002, err);
+          case "unique violation": return res.customError(3003, err);
         }
       }
       res.negotiate(err);
