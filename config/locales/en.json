@@ -1,6 +1,7 @@
 {
   "Welcome": "Welcome",
   "A brand new app.": "A brand new app.",
-  
-  "name.invalid": "Name contains invalid characters.  Valid characters are lowercase alpha, numbers, and -."
+  "2001.message": "Token not valid or not for a valid user",
+  "3001.message": "Name contains invalid characters.  Valid characters are lowercase alpha, numbers, and -.",
+  "3002.message": "Name cannot be blank"
 }

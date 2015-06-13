@@ -20,6 +20,7 @@ module.exports = {
     name: {
       type: Sequelize.STRING,
       unique: true,
+      allowNull: false,
       set: function(val) {
         this.setDataValue('name', val.toLowerCase());
       },
