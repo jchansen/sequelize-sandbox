@@ -75,7 +75,7 @@ describe('Apis#create', function() {
         })
       });
 
-      it.only('will return a 400 indicating that the name is already taken', function(done) {
+      it('will return a 400 indicating that the name is already taken', function(done) {
         sails.request({
           method: 'post',
           url: '/api/api',
@@ -93,7 +93,21 @@ describe('Apis#create', function() {
     });
 
     describe('when the api name is a reserved api name (i.e admin, storcery, mikrofusion, chrisfishwood, god, etc)', function() {
-
+      it.only('will return a 400 indicating that the name is already taken', function(done) {
+        sails.request({
+          method: 'post',
+          url: '/api/api',
+          headers: {
+            'authorization': 'Bearer good-token'
+          },
+          data: {
+            name: "mikrofish"
+          }
+        }, function(err, res, body){
+          expect(err.body).to.eql(errors(3003));
+          done();
+        });
+      });
     });
 
     describe('when the api gets created', function() {

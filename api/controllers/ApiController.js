@@ -19,10 +19,37 @@ var sequelize = require('sequelize');
  * that unique id will be returned.
  */
 
+var errors = require('../errors');
+
+var RESERVED_NAMES = [
+  'storcery',
+  'storceryio',
+  'mikro.fish',
+  'mikrofish',
+  'mikrofusion',
+  'groseclose',
+  'mikegroseclose',
+  'chrisfishwood',
+  'admin',
+  'god',
+  'su',
+  'sudo',
+  'status',
+  'home',
+  'jchansen',
+  'www'
+];
+
 function checkValidCharacters(name) {
   var re = new RegExp('^[a-z0-9-]+$');
   if (!re.test(name)) return sails.__('name.invalid');
   return true;
+}
+
+function checkReservedNames(name) {
+  if (RESERVED_NAMES.indexOf(name.toString().toLowerCase()) !== -1) {
+    throw errors(3003);
+  }
 }
 
 module.exports = {
@@ -35,6 +62,8 @@ module.exports = {
     //if(checkValidCharacters(data.name)){
     //  return res.badRequest();
     //}
+
+    if(data.name) checkReservedNames(data.name);
 
     // Create new instance of model using data from params
     Api.create(data).then(function(newInstance) {
