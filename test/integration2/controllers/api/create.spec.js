@@ -67,12 +67,21 @@ describe('Apis#create', function() {
     });
 
     describe('when the api name is taken', function() {
-      var name = 'do-not-duplicate-me-bro';
+      var name = 'do-not-duplicate-me-bro',
+          owner = null;
 
       beforeEach(function(done){
-        factory.create('Api', {name: name}, function(err, api){
+        factory.create('User', {}, function(err, user){
           if(err) throw err;
-          done();
+          var apiData = {
+            name: name,
+            ownerId: user.authId
+          };
+          owner = user;
+          factory.create('Api', apiData, function(err, api){
+            if(err) throw err;
+            done();
+          })
         })
       });
 
