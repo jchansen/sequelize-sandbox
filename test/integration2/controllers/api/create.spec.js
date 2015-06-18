@@ -71,6 +71,7 @@ describe('Apis#create', function() {
 
       beforeEach(function(done){
         factory.create('Api', {name: name}, function(err, api){
+          if(err) throw err;
           done();
         })
       });
@@ -131,7 +132,7 @@ describe('Apis#create', function() {
         });
       });
 
-      it.only('will set the ownerId to the id of the user that created the API', function(done) {
+      it('will set the ownerId to the id of the user that created the API', function(done) {
         sails.request({
           method: 'post',
           url: '/api/api',
