@@ -23,6 +23,8 @@ Object.keys(models).map(function(modelName){
 require('./factories/project')(factory, Models['Project']);
 require('./factories/task')(factory, Models['Task']);
 require('./factories/api')(factory, Models['Api']);
+require('./factories/collection')(factory, Models['Collection']);
+require('./factories/user')(factory, Models['User']);
 
 module.exports = function() {
   return factory;
