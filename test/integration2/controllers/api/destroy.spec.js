@@ -63,30 +63,10 @@ describe('apis#destroy', function() {
                 authorization: 'Bearer good-token'
               }
             }, function(err, res, body){
-              //expect(err.status).to.eq(404);
               expect(err.body).to.eql(errors(2002));
               done();
             })
           });
-
-          //.spread(function(res, body){
-          //  expect(res.statusCode).to.eq(204);
-          //
-          //  return pSailsRequest({
-          //    method: 'get',
-          //    url: '/api/api/' + api.id,
-          //    headers: {
-          //      authorization: 'Bearer good-token'
-          //    }
-          //  })
-          //})
-          //.then(function(res, body){
-          //  expect(res.statusCode).to.eq(404);
-          //  done();
-          //})
-          //.error(function(err){
-          //  console.log(err);
-          //});
         });
       });
     });
