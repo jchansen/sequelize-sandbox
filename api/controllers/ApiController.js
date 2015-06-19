@@ -54,7 +54,7 @@ function checkReservedNames(name) {
 
 module.exports = {
 
-  create: function findRecords (req, res) {
+  create: function(req, res) {
     // Create data object (monolithic combination of all parameters)
     // Omit the blacklisted params (like JSONP callback param, etc.)
     var data = actionUtil.parseValues(req);
@@ -94,6 +94,27 @@ module.exports = {
         }
 
       }
+      res.negotiate(err);
+    });
+  },
+
+  destroy: function(req, res) {
+    // Locate and validate the required `id` parameter.
+    var pk = actionUtil.requirePk(req);
+
+    // Lookup for records that match the specified criteria
+    Api.findOne({
+      where: {
+        id: pk
+      }
+    }).then(function(record){
+      if(!record) return res.notFound('No record found with the specified `id`.');
+      return record.destroy().then(function(record){
+        //res.ok(record);
+        res.status(204);
+        res.json();
+      });
+    }).catch(function(err){
       res.negotiate(err);
     });
   }
