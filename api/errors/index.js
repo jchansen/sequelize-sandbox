@@ -13,6 +13,7 @@
 var errors = {
   // 2XXX: General Validation
   "2001": 401,
+  "2002": 404,
 
   // 3XXX: API
   "3001": 400,

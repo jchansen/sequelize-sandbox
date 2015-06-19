@@ -28,7 +28,8 @@ module.exports = function findRecords (req, res) {
       id: pk
     }
   }).then(function(matchingRecord){
-    if(!matchingRecord) return res.notFound('No record found with the specified `id`.');
+    //if(!matchingRecord) return res.notFound('No record found with the specified `id`.');
+    if(!matchingRecord) return res.customError(2002);
     res.ok(matchingRecord);
   }).catch(function(err){
     res.serverError(err);
