@@ -1,7 +1,7 @@
 require('dotenv').load();
 var sails = require('sails');
 var nock = require('nock');
-
+var userProfiles = require('./userProfiles');
 // -------------------------------------------------------------
 // Transfer Passports req methods to the mock req we'll be using
 // -------------------------------------------------------------
@@ -54,9 +54,11 @@ after(function afterTestsFinish (done) {
 // Set up Nock for valid/invalid user requests
 //
 
-beforeEach(function(){
+before(function(){
   nock.disableNetConnect();
+});
 
+beforeEach(function(){
   nock('https://storcery.auth0.com/')
     .persist()
     .post('/tokeninfo', {
@@ -69,15 +71,13 @@ beforeEach(function(){
     .post('/tokeninfo', {
       id_token: "good-token"
     })
-    .reply(200, {
-      user_id: "auth0|54321",
-      name: "Test User",
-      nickname: "testuser",
-      picture: "https://secure.gravatar.com/avatar/abc123",
-      email: "test_user@gmail.com"
-    });
+    .reply(200, userProfiles.defaultUser);
 });
 
 afterEach(function(){
+  nock.cleanAll();
+});
+
+after(function(){
   nock.restore();
 });

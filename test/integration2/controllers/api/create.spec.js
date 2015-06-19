@@ -3,12 +3,13 @@ var expect = require('chai').expect;
 var factory = require('../../../factories')();
 var sequelize = require('../../../sequelize');
 var errors = require('../../../../api/errors');
+var userProfiles = require('../../../userProfiles');
 
 function rebuildDatabase(){
   return sequelize.sync({force: true});
 }
 
-describe('Apis#create', function() {
+describe('apis#create', function() {
 
   beforeEach(function(){
     return rebuildDatabase();
@@ -71,7 +72,9 @@ describe('Apis#create', function() {
           owner = null;
 
       beforeEach(function(done){
-        factory.create('User', {}, function(err, user){
+        factory.create('User', {
+          authId: userProfiles.defaultUser.user_id
+        }, function(err, user){
           if(err) throw err;
           var apiData = {
             name: name,
@@ -152,7 +155,7 @@ describe('Apis#create', function() {
             name: name
           }
         }, function(err, res, body){
-          expect(body.ownerId).to.equal("auth0|54321");
+          expect(body.ownerId).to.equal(userProfiles.defaultUser.user_id);
           done();
         });
       });
