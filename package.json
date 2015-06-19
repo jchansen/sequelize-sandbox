@@ -5,6 +5,7 @@
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
+    "bluebird": "^2.9.30",
     "chai": "^2.3.0",
     "dotenv": "^1.1.0",
     "ejs": "~0.8.4",
