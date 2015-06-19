@@ -109,6 +109,8 @@ module.exports = {
       }
     }).then(function(record){
       if(!record) return res.notFound('No record found with the specified `id`.');
+      if(record.ownerId !== req.user.user_id) return res.notFound('No record found with the specified `id`.');
+
       return record.destroy().then(function(record){
         //res.ok(record);
         res.status(204);

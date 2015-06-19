@@ -54,7 +54,7 @@ after(function afterTestsFinish (done) {
 // Set up Nock for valid/invalid user requests
 //
 
-before(function(){
+beforeEach(function(){
   nock.disableNetConnect();
 
   nock('https://storcery.auth0.com/')
@@ -78,6 +78,6 @@ before(function(){
     });
 });
 
-after(function(){
+afterEach(function(){
   nock.restore();
 });
